@@ -17,6 +17,9 @@
     <Company>Keşif Tools</Company>
     <Copyright>© 2025 Keşif Tools. Tüm hakları saklıdır.</Copyright>
 
+    <!-- Icon -->
+    <ApplicationIcon>Resources\app.ico</ApplicationIcon>
+
     <!-- Release Optimizasyonu -->
     <DebugType Condition="'$(Configuration)' == 'Release'">none</DebugType>
     <DebugSymbols Condition="'$(Configuration)' == 'Release'">false</DebugSymbols>
@@ -32,6 +35,12 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\app.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

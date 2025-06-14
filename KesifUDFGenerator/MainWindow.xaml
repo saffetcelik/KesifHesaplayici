@@ -8,6 +8,7 @@
         xmlns:converters="clr-namespace:KesifUDFGenerator.Converters"
         mc:Ignorable="d"
         Title="Keşif Metni Oluşturucu"
+        Icon="Resources/app.ico"
         Height="762"
         Width="959"
         MinHeight="700"
