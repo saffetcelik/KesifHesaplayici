@@ -27,9 +27,9 @@ jobs:
     - name: 🏗️ Build Application
       run: dotnet build KesifUDFGenerator/KesifUDFGenerator.csproj --configuration Release --no-restore
       
-    - name: 📦 Publish Framework-Dependent (Küçük Boyut)
+    - name: 📦 Publish Self-Contained (Runtime Dahil)
       run: |
-        dotnet publish KesifUDFGenerator/KesifUDFGenerator.csproj --configuration Release --runtime win-x64 --self-contained false --output ./publish -p:PublishSingleFile=true
+        dotnet publish KesifUDFGenerator/KesifUDFGenerator.csproj --configuration Release --runtime win-x64 --self-contained true --output ./publish -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
 
     - name: 📁 Create Release Package
       run: |
@@ -66,12 +66,12 @@ jobs:
 
           ### 💻 Sistem Gereksinimleri:
           - Windows 10/11 (x64)
-          - .NET 8.0 Runtime (otomatik indirilir)
+          - .NET Runtime dahil (self-contained)
 
           ### 📦 Kurulum:
           1. Exe dosyasını indirin
-          2. İlk çalıştırmada .NET Runtime otomatik indirilecek
-          3. Çalıştırın!
+          2. Çift tıklayarak çalıştırın - kurulum gerektirmez!
+          3. Hiçbir ek yazılım gerekmez!
         files: |
           ${{ env.PACKAGE_NAME }}.exe
           ${{ env.PACKAGE_NAME }}.zip
