@@ -2,6 +2,11 @@
 
 Modern .NET 8 WPF uygulaması ile geliştirilmiş mahkeme keşif kararları için metin oluşturucu.
 
+## Ön İzleme
+
+![Screenshot_1](https://github.com/user-attachments/assets/c3507480-c986-414b-915b-8da312d2e0c8)
+
+
 ## Özellikler
 
 - **Kompakt Modern UI**: Material Design ile tasarlanmış minimal arayüz
