@@ -1,0 +1,22 @@
+{
+  "VarsayilanBilirkisiUcreti": 2700,
+  "VarsayilanKesifAraciUcreti": 2000,
+  "VarsayilanKesifHarci": 4361.50,
+  "VarsayilanSonYatirmaSuresi": 7,
+  "VarsayilanKesifSaati": "15:30",
+  "BilirkisiTurleri": [
+    "İnşaat Mühendisi",
+    "Orman Yüksek Mühendisi",
+    "Fen Bilirkişisi",
+    "Ziraat Bilirkişisi",
+    "Gayrimenkul Değerleme Uzmanı",
+    "Hesap Bilirkişisi",
+    "Yazılım Bilirkişisi",
+    "İç Denetçi Bilirkişi"
+  ],
+  "VarsayilanSeciliBilirkisiler": [
+    "İnşaat Mühendisi",
+    "Fen Bilirkişisi",
+    "Gayrimenkul Değerleme Uzmanı"
+  ]
+}
