@@ -9,99 +9,69 @@ on:
 jobs:
   build-and-release:
     runs-on: windows-latest
-    
+    permissions:
+      contents: write
+
     steps:
     - name: 📥 Checkout Code
       uses: actions/checkout@v4
-      
+
     - name: 🔧 Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
-        
+
     - name: 📦 Restore Dependencies
       run: dotnet restore KesifUDFGenerator/KesifUDFGenerator.csproj
-      
+
     - name: 🏗️ Build Application
       run: dotnet build KesifUDFGenerator/KesifUDFGenerator.csproj --configuration Release --no-restore
       
-    - name: 📋 Test Application
-      run: dotnet test KesifUDFGenerator/KesifUDFGenerator.csproj --configuration Release --no-build --verbosity normal
-      continue-on-error: true  # Test yoksa devam et
-      
     - name: 📦 Publish Self-Contained
       run: |
-        dotnet publish KesifUDFGenerator/KesifUDFGenerator.csproj `
-          --configuration Release `
-          --runtime win-x64 `
-          --self-contained true `
-          --output ./publish `
-          -p:PublishSingleFile=true `
-          -p:PublishTrimmed=false `
-          -p:IncludeNativeLibrariesForSelfExtract=true
-          
+        dotnet publish KesifUDFGenerator/KesifUDFGenerator.csproj --configuration Release --runtime win-x64 --self-contained true --output ./publish -p:PublishSingleFile=true -p:PublishTrimmed=false
+
     - name: 📁 Create Release Package
       run: |
-        $version = if ($env:GITHUB_REF -match 'refs/tags/(.*)') { $matches[1] } else { "dev" }
+        $version = "${{ github.ref_name }}"
         $packageName = "KesifMetniOlusturucu-$version-win-x64"
-        
-        # Ana exe dosyasını kopyala
+
         Copy-Item "./publish/KesifUDFGenerator.exe" "./$packageName.exe"
-        
-        # Ayarlar dosyasını kopyala
+
         if (Test-Path "./publish/appsettings.json") {
           Copy-Item "./publish/appsettings.json" "./appsettings.json"
         }
-        
-        # ZIP paketi oluştur
-        Compress-Archive -Path "./$packageName.exe", "./appsettings.json" -DestinationPath "./$packageName.zip"
-        
+
+        Compress-Archive -Path "./$packageName.exe" -DestinationPath "./$packageName.zip"
+
         echo "PACKAGE_NAME=$packageName" >> $env:GITHUB_ENV
         echo "VERSION=$version" >> $env:GITHUB_ENV
       shell: pwsh
       
-    - name: 📝 Generate Release Notes
-      run: |
-        $releaseNotes = @"
-        ## 🎉 Keşif Metni Oluşturucu ${{ env.VERSION }}
-        
-        ### 📋 Bu Sürümde:
-        - ✅ Modern WPF arayüzü
-        - ✅ Otomatik keşif metni oluşturma
-        - ✅ Bilirkişi türleri yönetimi
-        - ✅ Ücret hesaplama sistemi
-        - ✅ PDF kopyalama özelliği
-        - ✅ Ayarlanabilir varsayılan değerler
-        
-        ### 💻 Sistem Gereksinimleri:
-        - Windows 10/11 (x64)
-        - .NET Runtime dahil (self-contained)
-        
-        ### 📦 Kurulum:
-        1. ``${{ env.PACKAGE_NAME }}.exe`` dosyasını indirin
-        2. Çalıştırın - kurulum gerektirmez!
-        3. İlk çalıştırmada ayarlarınızı yapılandırın
-        
-        ### 🔧 Yapılandırma:
-        - ``appsettings.json`` dosyası ile özelleştirilebilir
-        - Varsayılan ücretler ayarlanabilir
-        - Bilirkişi türleri eklenebilir/düzenlenebilir
-        "@
-        
-        $releaseNotes | Out-File -FilePath "release-notes.md" -Encoding UTF8
-      shell: pwsh
-      
     - name: 🚀 Create GitHub Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ env.VERSION }}
-        name: "Keşif Metni Oluşturucu ${{ env.VERSION }}"
-        body_path: release-notes.md
+        name: "Keşif Metni Oluşturucu ${{ github.ref_name }}"
+        body: |
+          ## 🎉 Keşif Metni Oluşturucu ${{ github.ref_name }}
+
+          ### 📋 Bu Sürümde:
+          - ✅ Modern WPF arayüzü
+          - ✅ Otomatik keşif metni oluşturma
+          - ✅ Bilirkişi türleri yönetimi
+          - ✅ Ücret hesaplama sistemi
+          - ✅ Metni kopyala butonu geri bildirim özelliği
+          - ✅ Ayarlanabilir varsayılan değerler
+
+          ### 💻 Sistem Gereksinimleri:
+          - Windows 10/11 (x64)
+          - .NET Runtime dahil (self-contained)
+
+          ### 📦 Kurulum:
+          1. Exe dosyasını indirin
+          2. Çalıştırın - kurulum gerektirmez!
         files: |
           ${{ env.PACKAGE_NAME }}.exe
           ${{ env.PACKAGE_NAME }}.zip
-          appsettings.json
         draft: false
         prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
