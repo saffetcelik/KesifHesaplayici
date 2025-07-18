@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KesifUDFGenerator"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:converters="clr-namespace:KesifUDFGenerator.Converters"
+
         mc:Ignorable="d"
         Title="Keşif Metni Oluşturucu"
         Icon="Resources/app.ico"
@@ -32,10 +32,7 @@
     </WindowChrome.WindowChrome>
 
     <Window.Resources>
-        <converters:DecimalToStringConverter x:Key="DecimalToStringConverter"/>
-        <converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter"/>
-
-
+        <!-- Converter'lar code-behind'da tanımlanacak -->
     </Window.Resources>
 
     <!-- Modern Container -->
@@ -206,7 +203,7 @@
 
                             <TextBox Grid.Column="2"
                                     materialDesign:HintAssist.Hint="Saat"
-                                    Text="{Binding KesifBilgileri.KesifSaati, Converter={StaticResource TimeSpanToStringConverter}}"
+                                    Text="{Binding KesifBilgileri.KesifSaatiString}"
                                     FontSize="14"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
                         </Grid>
@@ -226,19 +223,19 @@
 
                             <TextBox Grid.Row="0" Grid.Column="0"
                                     materialDesign:HintAssist.Hint="Bilirkişi Ücreti (TL)"
-                                    Text="{Binding KesifBilgileri.BilirkisiUcreti, Converter={StaticResource DecimalToStringConverter}}"
+                                    Text="{Binding KesifBilgileri.BilirkisiUcretiString}"
                                     FontSize="14"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
 
                             <TextBox Grid.Row="0" Grid.Column="2"
                                     materialDesign:HintAssist.Hint="Araç Ücreti (TL)"
-                                    Text="{Binding KesifBilgileri.KesifAraciUcreti, Converter={StaticResource DecimalToStringConverter}}"
+                                    Text="{Binding KesifBilgileri.KesifAraciUcretiString}"
                                     FontSize="14"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
 
                             <TextBox Grid.Row="2" Grid.Column="0"
                                     materialDesign:HintAssist.Hint="Keşif Harcı (TL)"
-                                    Text="{Binding KesifBilgileri.KesifHarci, Converter={StaticResource DecimalToStringConverter}}"
+                                    Text="{Binding KesifBilgileri.KesifHarciString}"
                                     FontSize="14"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
 

@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.Globalization;
 
 namespace KesifUDFGenerator.Models;
 
@@ -34,6 +35,66 @@ public partial class KesifBilgileri : ObservableObject
     public DateTime SonYatirmaGunu => KesifTarihi.AddDays(-SonYatirmaSuresi);
 
     /// <summary>
+    /// Keşif saati string formatında
+    /// </summary>
+    public string KesifSaatiString
+    {
+        get => KesifSaati.ToString(@"hh\:mm");
+        set
+        {
+            if (TimeSpan.TryParseExact(value, @"hh\:mm", CultureInfo.InvariantCulture, out var result))
+            {
+                KesifSaati = result;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Bilirkişi ücreti string formatında
+    /// </summary>
+    public string BilirkisiUcretiString
+    {
+        get => BilirkisiUcreti.ToString("F2", CultureInfo.CurrentCulture);
+        set
+        {
+            if (decimal.TryParse(value, NumberStyles.Number, CultureInfo.CurrentCulture, out var result))
+            {
+                BilirkisiUcreti = result;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Keşif aracı ücreti string formatında
+    /// </summary>
+    public string KesifAraciUcretiString
+    {
+        get => KesifAraciUcreti.ToString("F2", CultureInfo.CurrentCulture);
+        set
+        {
+            if (decimal.TryParse(value, NumberStyles.Number, CultureInfo.CurrentCulture, out var result))
+            {
+                KesifAraciUcreti = result;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Keşif harcı string formatında
+    /// </summary>
+    public string KesifHarciString
+    {
+        get => KesifHarci.ToString("F2", CultureInfo.CurrentCulture);
+        set
+        {
+            if (decimal.TryParse(value, NumberStyles.Number, CultureInfo.CurrentCulture, out var result))
+            {
+                KesifHarci = result;
+            }
+        }
+    }
+
+    /// <summary>
     /// Toplam gideri günceller
     /// </summary>
     public void ToplamGideriGuncelle(int toplamBilirkisiSayisi)
@@ -63,18 +124,23 @@ public partial class KesifBilgileri : ObservableObject
         OnPropertyChanged(nameof(SonYatirmaGunu));
     }
 
+    partial void OnKesifSaatiChanged(TimeSpan value)
+    {
+        OnPropertyChanged(nameof(KesifSaatiString));
+    }
+
     partial void OnBilirkisiUcretiChanged(decimal value)
     {
-        // ToplamGider otomatik olarak güncellenir, manuel çağırma gerekmez
+        OnPropertyChanged(nameof(BilirkisiUcretiString));
     }
 
     partial void OnKesifAraciUcretiChanged(decimal value)
     {
-        // ToplamGider otomatik olarak güncellenir, manuel çağırma gerekmez
+        OnPropertyChanged(nameof(KesifAraciUcretiString));
     }
 
     partial void OnKesifHarciChanged(decimal value)
     {
-        // ToplamGider otomatik olarak güncellenir, manuel çağırma gerekmez
+        OnPropertyChanged(nameof(KesifHarciString));
     }
 }
