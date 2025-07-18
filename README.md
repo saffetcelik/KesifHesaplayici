@@ -31,23 +31,33 @@ Modern .NET 8 WPF uygulaması ile geliştirilmiş mahkeme keşif kararları içi
 - **CommunityToolkit.Mvvm**: MVVM pattern için
 - **Microsoft.Extensions.Hosting**: Dependency injection ve configuration
 
-## Kurulum
+## 📦 İndirme ve Kurulum
 
-### Gereksinimler
-- .NET 8 SDK
-- Windows 10/11
+### 🚀 Hızlı Başlangıç (Önerilen)
+1. [Releases](https://github.com/[repository-url]/releases) sayfasından en son sürümü indirin
+2. ZIP dosyasını çıkarın
+3. `Başlat.bat` dosyasına çift tıklayın
+4. Hepsi bu kadar! 🎉
 
-### Çalıştırma
+### 💻 Sistem Gereksinimleri
+- Windows 10/11 (64-bit)
+- **Hiçbir ek yazılım gerekmez** (.NET Runtime dahil)
+
+### 👨‍💻 Geliştirici Kurulumu
 ```bash
 # Projeyi klonlayın
 git clone [repository-url]
 
 # Proje dizinine gidin
-cd kesif
+cd KesifHesaplayici
 
 # Uygulamayı çalıştırın
 dotnet run --project KesifUDFGenerator
 ```
+
+**Gereksinimler (sadece geliştirme için):**
+- .NET 8 SDK
+- Windows 10/11
 
 ## Kullanım
 
@@ -122,17 +132,17 @@ KesifUDFGenerator/
 - Keşif Harcı: 4.361,50 TL
 - Son Yatırma Süresi: 7 gün
 
-## 🚀 Çalıştırma
+## 🚀 Kullanım
 
 ### Hızlı Başlatma
 ```batch
-# Uygulamayı başlat
+# Release sürümü için
 Başlat.bat
 ```
 
-### Manuel Çalıştırma
+### Geliştirici Çalıştırma
 ```bash
-# Proje dizininde
+# Kaynak koddan çalıştırma
 dotnet run --project KesifUDFGenerator
 ```
 
@@ -153,14 +163,23 @@ kesif/
     └── App.xaml           # Uygulama giriş noktası
 ```
 
-## Geliştirme
+## 🔧 Geliştirme
 
 ### Build
 ```bash
 dotnet build
 ```
 
-### Publish
+### Release Build
+```bash
+# PowerShell script kullanarak
+.\build-release.ps1
+
+# Veya batch script
+.\build-release.bat
+```
+
+### Manuel Publish
 ```bash
 dotnet publish -c Release -r win-x64 --self-contained
 ```
